@@ -1,0 +1,160 @@
+﻿<Page
+    x:Class="UI.Pages.Forms.CreateGolferPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:UI.Pages.Forms"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="CreateGolferPage"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Name="Header" Height="75" />
+            <RowDefinition Name="Form" Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Margin="5,5,0,0"
+            HorizontalAlignment="Left"
+            FontSize="36"
+            FontWeight="Bold"
+            Foreground="{StaticResource Foreground}"
+            Text="Add Golfer" />
+
+        <!--  Form  -->
+        <StackPanel
+            Grid.Row="1"
+            Width="575"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <StackPanel
+                Margin="15"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+
+                <!--  First Name  -->
+                <StackPanel Orientation="Vertical">
+                    <TextBlock
+                        Margin="5"
+                        HorizontalAlignment="Center"
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Foreground="{StaticResource Foreground}"
+                        Text="First Name" />
+
+                    <Border
+                        Width="250"
+                        Height="50"
+                        Margin="15,0"
+                        BorderBrush="{StaticResource Dark Gray}"
+                        BorderThickness="2"
+                        CornerRadius="5">
+                        <TextBox
+                            x:Name="FirstNameTextBox"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="{StaticResource Background}"
+                            BorderThickness="0"
+                            FontSize="18"
+                            Foreground="{StaticResource Foreground}" />
+                    </Border>
+                </StackPanel>
+
+                <!--  Last Name  -->
+                <StackPanel Orientation="Vertical">
+                    <TextBlock
+                        Margin="5"
+                        HorizontalAlignment="Center"
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Foreground="{StaticResource Foreground}"
+                        Text="Last Name" />
+
+                    <Border
+                        Width="250"
+                        Height="50"
+                        Margin="15,0"
+                        BorderBrush="{StaticResource Dark Gray}"
+                        BorderThickness="2"
+                        CornerRadius="5">
+                        <TextBox
+                            x:Name="LastNameTextBox"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="{StaticResource Background}"
+                            BorderThickness="0"
+                            FontSize="18"
+                            Foreground="{StaticResource Foreground}" />
+                    </Border>
+                </StackPanel>
+
+            </StackPanel>
+
+            <!--  Handicap  -->
+            <StackPanel
+                Margin="15"
+                HorizontalAlignment="Center"
+                Orientation="Vertical">
+                <TextBlock
+                    Margin="5"
+                    HorizontalAlignment="Center"
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Foreground="{StaticResource Foreground}"
+                    Text="Handicap Index" />
+
+                <TextBlock
+                    Margin="2"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    FontWeight="Regular"
+                    Foreground="{StaticResource Foreground}"
+                    Text="For a golfer that shoots under par, add a '+' e.g. +1.7" />
+
+                <Border
+                    Width="250"
+                    Height="50"
+                    Margin="15,0"
+                    BorderBrush="{StaticResource Dark Gray}"
+                    BorderThickness="2"
+                    CornerRadius="5">
+                    <TextBox
+                        Name="HandicapTextbox"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="{StaticResource Background}"
+                        BorderThickness="0"
+                        FontSize="18"
+                        Foreground="{StaticResource Foreground}" />
+                </Border>
+            </StackPanel>
+
+            <!--  Error Message  -->
+            <TextBlock
+                x:Name="ErrorMessageTextBlock"
+                Margin="5"
+                HorizontalAlignment="Center"
+                FontSize="16"
+                FontWeight="SemiBold"
+                Foreground="Red"
+                TextAlignment="Center"
+                TextWrapping="WrapWithOverflow" />
+
+            <!--  Save Button  -->
+
+            <Button
+                x:Name="SaveButton"
+                Margin="50,0,0,0"
+                HorizontalAlignment="Right"
+                Click="SaveButton_Click"
+                Content="Save"
+                Style="{StaticResource SaveExitButtonStyle}" />
+
+        </StackPanel>
+
+    </Grid>
+</Page>

@@ -1,0 +1,45 @@
+﻿<UserControl
+    x:Class="UI.Controls.GolferSearchBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:UI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <StackPanel
+        x:Name="SearchPanel"
+        Margin="15,0"
+        Orientation="Vertical">
+        <TextBlock
+            HorizontalAlignment="Center"
+            FontSize="26"
+            FontWeight="SemiBold"
+            Foreground="{StaticResource Foreground}"
+            Text="Golfer" />
+        <TextBox
+            x:Name="GolferSearchBox"
+            Width="300"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Background="{StaticResource Background}"
+            BorderBrush="{StaticResource Dark Gray}"
+            BorderThickness="2"
+            FontSize="35"
+            Foreground="{StaticResource Foreground}"
+            TextChanged="GolferSearchBox_TextChanged" />
+
+        <!--  Golfer Search Results  -->
+        <ListBox
+            Name="SearchResultsListBox"
+            Width="300"
+            MaxHeight="300"
+            Background="{StaticResource Dark Gray}"
+            Foreground="{StaticResource Foreground}"
+            IsTabStop="True"
+            KeyDown="SearchResultsListBox_KeyDown"
+            MouseDoubleClick="SearchResultsListBox_MouseDoubleClick"
+            Visibility="collapsed" />
+    </StackPanel>
+</UserControl>

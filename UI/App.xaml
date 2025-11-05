@@ -1,0 +1,27 @@
+﻿<Application
+    x:Class="UI.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:UI">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Themes/Colors.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/NavigationButtonStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/NavigationIconStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/CreateNewLeagueButtonStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/SaveExitButtonStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/CourseHolePreviewDataGridStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/PillStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/LeagueOptionButtonStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/RoundsDataGridStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/DatePickerStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/DayOfWeekComboBoxStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/TeamPillStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/ScrollBarStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/CreateLeagueMatchupsButtonStyle.xaml" />
+                <ResourceDictionary Source="/Resources/Styles/MatchupPillStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

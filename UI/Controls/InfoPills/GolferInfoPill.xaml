@@ -1,0 +1,69 @@
+﻿<UserControl
+    x:Class="UI.Controls.InfoPills.GolferInfoPill"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:UI.Controls.InfoPills"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Button
+        x:Name="GolferButton"
+        Click="GolferButton_Click"
+        Style="{StaticResource PillStyle}">
+        <StackPanel>
+            <StackPanel Name="InfoPanel" Orientation="Vertical">
+                <!--  Golfer Name  -->
+                <TextBlock
+                    Margin="0,0,0,5"
+                    FontSize="26"
+                    FontWeight="Bold"
+                    Foreground="{StaticResource Foreground}"
+                    Text="{Binding GolferName}" />
+
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+
+                    <!--  Golfer Handicap  -->
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="5"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource Foreground}"
+                            Text="Handicap:" />
+                        <TextBlock
+                            Margin="5"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource Foreground}"
+                            Text="{Binding GolferHandicap}" />
+                    </StackPanel>
+
+                    <!--  Golfer Avg Gross Score  -->
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="5"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource Foreground}"
+                            Text="Avg Gross" />
+                        <TextBlock
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Foreground="{StaticResource Foreground}"
+                            Text="{Binding GolferGrossAvg}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel x:Name="EditPanel" Visibility="Collapsed">
+                <TextBlock Text="Edit" />
+            </StackPanel>
+        </StackPanel>
+    </Button>
+</UserControl>

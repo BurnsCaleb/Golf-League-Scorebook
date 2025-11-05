@@ -1,0 +1,94 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "league_scorebookContext",
+   "ContextNamespace": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "MinimumProductVersion": "2.6.1080",
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "Data",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[Course]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Golfer]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[GolferLeagueJunction]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[GolferTeamJunction]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Hole]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[League]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[LeagueSettings]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Matchup]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Round]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Score]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Team]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TeamMatchupJunction]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": true,
+   "UseDatabaseNamesForRoutines": true,
+   "UseDateOnlyTimeOnly": true,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseInternalAccessModifiersForSprocsAndFunctions": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false,
+   "UseT4Split": false
+}

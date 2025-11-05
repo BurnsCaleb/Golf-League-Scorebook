@@ -1,0 +1,203 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  ScrollBar Track Style  -->
+    <Style x:Key="ScrollBarTrackThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Rectangle
+                        x:Name="ThumbRect"
+                        Width="Auto"
+                        Height="Auto"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Fill="{StaticResource Dark Gray}"
+                        RadiusX="3"
+                        RadiusY="3" />
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="ThumbRect" Property="Fill">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="#4A5059" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsDragging" Value="true">
+                            <Setter TargetName="ThumbRect" Property="Fill">
+                                <Setter.Value>
+                                    <StaticResource ResourceKey="Accent" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  ScrollBar Button Style  -->
+    <Style x:Key="ScrollBarButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border
+                        x:Name="Border"
+                        Background="{StaticResource Background}"
+                        BorderBrush="{StaticResource Dark Gray}"
+                        BorderThickness="1">
+                        <Path
+                            x:Name="Arrow"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Data="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"
+                            Fill="{StaticResource Foreground}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Dark Gray}" />
+                            <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource Accent}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource Accent}" />
+                            <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource Foreground}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  Main ScrollBar Style  -->
+    <Style TargetType="{x:Type ScrollBar}">
+        <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
+        <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
+        <Setter Property="Background" Value="{StaticResource Background}" />
+        <Setter Property="Foreground" Value="{StaticResource Foreground}" />
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="Auto" />
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="Height" Value="18" />
+                <Setter Property="MinHeight" Value="18" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Grid x:Name="GridRoot" Background="{StaticResource Background}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="18" />
+                                    <ColumnDefinition Width="0.00001*" />
+                                    <ColumnDefinition Width="18" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--  Left Arrow Button  -->
+                                <RepeatButton
+                                    x:Name="DecreaseRepeat"
+                                    Grid.Column="0"
+                                    Command="ScrollBar.LineLeftCommand"
+                                    Content="M 6 0 L 0 6 L 6 12 Z"
+                                    Style="{StaticResource ScrollBarButton}" />
+
+                                <!--  Track  -->
+                                <Track
+                                    x:Name="PART_Track"
+                                    Grid.Column="1"
+                                    IsDirectionReversed="False">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton
+                                            x:Name="PageLeft"
+                                            Command="ScrollBar.PageLeftCommand"
+                                            Focusable="false"
+                                            Opacity="0" />
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb
+                                            x:Name="Thumb"
+                                            Background="{StaticResource Dark Gray}"
+                                            Style="{StaticResource ScrollBarTrackThumb}" />
+                                    </Track.Thumb>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton
+                                            x:Name="PageRight"
+                                            Command="ScrollBar.PageRightCommand"
+                                            Focusable="false"
+                                            Opacity="0" />
+                                    </Track.IncreaseRepeatButton>
+                                </Track>
+
+                                <!--  Right Arrow Button  -->
+                                <RepeatButton
+                                    x:Name="IncreaseRepeat"
+                                    Grid.Column="2"
+                                    Command="ScrollBar.LineRightCommand"
+                                    Content="M 0 0 L 6 6 L 0 12 Z"
+                                    Style="{StaticResource ScrollBarButton}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Width" Value="18" />
+                <Setter Property="MinWidth" Value="18" />
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="MinHeight" Value="0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Grid x:Name="GridRoot" Background="{StaticResource Background}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="18" />
+                                    <RowDefinition Height="0.00001*" />
+                                    <RowDefinition Height="18" />
+                                </Grid.RowDefinitions>
+
+                                <!--  Up Arrow Button  -->
+                                <RepeatButton
+                                    x:Name="DecreaseRepeat"
+                                    Grid.Row="0"
+                                    Command="ScrollBar.LineUpCommand"
+                                    Content="M 0 6 L 6 0 L 12 6 Z"
+                                    Style="{StaticResource ScrollBarButton}" />
+
+                                <!--  Track  -->
+                                <Track
+                                    x:Name="PART_Track"
+                                    Grid.Row="1"
+                                    IsDirectionReversed="true">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton
+                                            x:Name="PageUp"
+                                            Command="ScrollBar.PageUpCommand"
+                                            Focusable="false"
+                                            Opacity="0" />
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb
+                                            x:Name="Thumb"
+                                            Background="{StaticResource Dark Gray}"
+                                            Style="{StaticResource ScrollBarTrackThumb}" />
+                                    </Track.Thumb>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton
+                                            x:Name="PageDown"
+                                            Command="ScrollBar.PageDownCommand"
+                                            Focusable="false"
+                                            Opacity="0" />
+                                    </Track.IncreaseRepeatButton>
+                                </Track>
+
+                                <!--  Down Arrow Button  -->
+                                <RepeatButton
+                                    x:Name="IncreaseRepeat"
+                                    Grid.Row="2"
+                                    Command="ScrollBar.LineDownCommand"
+                                    Content="M 0 0 L 6 6 L 12 0 Z"
+                                    Style="{StaticResource ScrollBarButton}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>
