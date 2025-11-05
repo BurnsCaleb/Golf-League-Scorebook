@@ -38,5 +38,4 @@ Generate a **balanced schedule** ensuring all teams play each other throughout t
 ## 🚀 Getting Started
 
 1. You can download the app install here:  
-   ```
-   https://github.com/BurnsCaleb/my-website/releases/download/v1.0.0/GolfLeagueScorebook_Setup.zip
+   https://github.com/BurnsCaleb/Golf-League-Scorebook/releases/download/v1.0.0/GolfLeagueScorebook_Setup.zip
