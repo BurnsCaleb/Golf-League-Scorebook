@@ -90,198 +90,201 @@
         </Border>
 
         <!--  League Data  -->
-        <Border
-            Grid.Row="2"
-            Margin="15"
-            BorderBrush="{StaticResource Dark Gray}"
-            BorderThickness="5"
-            CornerRadius="10">
+        <Viewbox Grid.Row="2" Stretch="Uniform">
+            <Border
+    Grid.Row="2"
+    Margin="15"
+    BorderBrush="{StaticResource Dark Gray}"
+    BorderThickness="5"
+    CornerRadius="10">
 
 
 
-            <StackPanel
+                <StackPanel
+        Margin="15"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Orientation="Vertical">
+
+                    <!--  Enter Scores  -->
+                    <Button
+            Name="EnterScoresButton"
+            Click="EnterScoresButton_Click"
+            FontWeight="SemiBold"
+            Style="{StaticResource CreateLeagueMatchupsButtonStyle}"
+            Visibility="Collapsed">
+                        <TextBlock
+                Name="EnterScoresText"
+                FontSize="28"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource Foreground}"
+                TextAlignment="Center"
+                TextWrapping="WrapWithOverflow" />
+                    </Button>
+
+                    <!--  Next Week  -->
+                    <Button
+            Name="NextWeekButton"
+            Click="NextWeekButton_Click"
+            FontWeight="SemiBold"
+            Style="{StaticResource CreateLeagueMatchupsButtonStyle}"
+            Visibility="Collapsed">
+                        <TextBlock
+                Name="NextWeekText"
+                FontSize="28"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource Foreground}"
+                Text="Go To Next Week"
+                TextAlignment="Center"
+                TextWrapping="WrapWithOverflow" />
+                    </Button>
+
+                    <!--  Create New Season  -->
+                    <Button
+            Name="NewSeasonButton"
+            Click="NewSeasonButton_Click"
+            FontWeight="SemiBold"
+            Style="{StaticResource CreateLeagueMatchupsButtonStyle}"
+            Visibility="Collapsed">
+                        <TextBlock
+                FontSize="28"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource Foreground}"
+                Text="Create New Season"
+                TextAlignment="Center"
+                TextWrapping="WrapWithOverflow" />
+                    </Button>
+
+                    <!--  DataGrids  -->
+                    <StackPanel
+            Name="DataGridsStackPanel"
+            Margin="5"
+            HorizontalAlignment="Center"
+            VerticalAlignment="top"
+            Orientation="Horizontal"
+            Visibility="Collapsed">
+
+                        <DataGrid
+                Name="GolferRoundsDataGrid"
+                Height="450"
                 Margin="15"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Vertical">
+                VerticalAlignment="Top"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                AutoGenerateColumns="False"
+                CellStyle="{StaticResource RoundsDataGridCellStyle}"
+                ColumnHeaderStyle="{StaticResource RoundsDataGridColumnHeaderStyle}"
+                RowStyle="{StaticResource RoundsDataGridRowStyle}"
+                Style="{StaticResource RoundsDataGridStyle}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding GolferName, Mode=OneWay}" Header="Golfer" />
 
-                <!--  Enter Scores  -->
-                <Button
-                    Name="EnterScoresButton"
-                    Click="EnterScoresButton_Click"
-                    FontWeight="SemiBold"
-                    Style="{StaticResource CreateLeagueMatchupsButtonStyle}"
-                    Visibility="Collapsed">
-                    <TextBlock
-                        Name="EnterScoresText"
-                        FontSize="28"
-                        FontWeight="SemiBold"
-                        Foreground="{StaticResource Foreground}"
-                        TextAlignment="Center"
-                        TextWrapping="WrapWithOverflow" />
-                </Button>
+                                <DataGridTextColumn Binding="{Binding MatchupName, Mode=OneWay}" Header="Matchup">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                            <Setter Property="MaxWidth" Value="300" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
 
-                <!--  Next Week  -->
-                <Button
-                    Name="NextWeekButton"
-                    Click="NextWeekButton_Click"
-                    FontWeight="SemiBold"
-                    Style="{StaticResource CreateLeagueMatchupsButtonStyle}"
-                    Visibility="Collapsed">
-                    <TextBlock
-                        Name="NextWeekText"
-                        FontSize="28"
-                        FontWeight="SemiBold"
-                        Foreground="{StaticResource Foreground}"
-                        Text="Go To Next Week"
-                        TextAlignment="Center"
-                        TextWrapping="WrapWithOverflow" />
-                </Button>
-
-                <!--  Create New Season  -->
-                <Button
-                    Name="NewSeasonButton"
-                    Click="NewSeasonButton_Click"
-                    FontWeight="SemiBold"
-                    Style="{StaticResource CreateLeagueMatchupsButtonStyle}"
-                    Visibility="Collapsed">
-                    <TextBlock
-                        FontSize="28"
-                        FontWeight="SemiBold"
-                        Foreground="{StaticResource Foreground}"
-                        Text="Create New Season"
-                        TextAlignment="Center"
-                        TextWrapping="WrapWithOverflow" />
-                </Button>
-
-                <!--  DataGrids  -->
-                <StackPanel
-                    Name="DataGridsStackPanel"
-                    Margin="5"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="top"
-                    Orientation="Horizontal"
-                    Visibility="Collapsed">
-
-                    <DataGrid
-                        Name="GolferRoundsDataGrid"
-                        Height="450"
-                        Margin="15"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        AutoGenerateColumns="False"
-                        CellStyle="{StaticResource RoundsDataGridCellStyle}"
-                        ColumnHeaderStyle="{StaticResource RoundsDataGridColumnHeaderStyle}"
-                        RowStyle="{StaticResource RoundsDataGridRowStyle}"
-                        Style="{StaticResource RoundsDataGridStyle}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding GolferName, Mode=OneWay}" Header="Golfer" />
-
-                            <DataGridTextColumn Binding="{Binding MatchupName, Mode=OneWay}" Header="Matchup">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="MaxWidth" Value="300" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
-
-                            <DataGridTextColumn Binding="{Binding GrossScore, Mode=OneWay}" Header="Gross" />
-                            <DataGridTextColumn Binding="{Binding NetScore, Mode=OneWay}" Header="Net" />
-                            <DataGridTextColumn Binding="{Binding PointsAwarded, Mode=OneWay}" Header="Points" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                                <DataGridTextColumn Binding="{Binding GrossScore, Mode=OneWay}" Header="Gross" />
+                                <DataGridTextColumn Binding="{Binding NetScore, Mode=OneWay}" Header="Net" />
+                                <DataGridTextColumn Binding="{Binding PointsAwarded, Mode=OneWay}" Header="Points" />
+                            </DataGrid.Columns>
+                        </DataGrid>
 
 
-                    <DataGrid
-                        Name="TeamRoundsDataGrid"
-                        Height="450"
-                        Margin="15"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        AutoGenerateColumns="False"
-                        CellStyle="{StaticResource RoundsDataGridCellStyle}"
-                        ColumnHeaderStyle="{StaticResource RoundsDataGridColumnHeaderStyle}"
-                        RowStyle="{StaticResource RoundsDataGridRowStyle}"
-                        Style="{StaticResource RoundsDataGridStyle}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding DatePlayed, Mode=OneWay}" Header="Date Played" />
+                        <DataGrid
+                Name="TeamRoundsDataGrid"
+                Height="450"
+                Margin="15"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                AutoGenerateColumns="False"
+                CellStyle="{StaticResource RoundsDataGridCellStyle}"
+                ColumnHeaderStyle="{StaticResource RoundsDataGridColumnHeaderStyle}"
+                RowStyle="{StaticResource RoundsDataGridRowStyle}"
+                Style="{StaticResource RoundsDataGridStyle}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding DatePlayed, Mode=OneWay}" Header="Date Played" />
 
-                            <DataGridTextColumn Binding="{Binding TeamName, Mode=OneWay}" Header="Team">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="MaxWidth" Value="300" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding TeamName, Mode=OneWay}" Header="Team">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                            <Setter Property="MaxWidth" Value="300" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn Binding="{Binding MatchupName, Mode=OneWay}" Header="Matchup">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="MaxWidth" Value="300" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding MatchupName, Mode=OneWay}" Header="Matchup">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                            <Setter Property="MaxWidth" Value="300" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn Binding="{Binding PointsAwarded, Mode=OneWay}" Header="Points" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                                <DataGridTextColumn Binding="{Binding PointsAwarded, Mode=OneWay}" Header="Points" />
+                            </DataGrid.Columns>
+                        </DataGrid>
 
-                    <DataGrid
-                        Name="LeagueLeaderBoardDataGrid"
-                        Height="450"
-                        Margin="15"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        AutoGenerateColumns="False"
-                        CellStyle="{StaticResource RoundsDataGridCellStyle}"
-                        ColumnHeaderStyle="{StaticResource RoundsDataGridColumnHeaderStyle}"
-                        RowStyle="{StaticResource RoundsDataGridRowStyle}"
-                        Style="{StaticResource RoundsDataGridStyle}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding TeamName, Mode=OneWay}" Header="Team">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="MaxWidth" Value="300" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
+                        <DataGrid
+                Name="LeagueLeaderBoardDataGrid"
+                Height="450"
+                Margin="15"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                AutoGenerateColumns="False"
+                CellStyle="{StaticResource RoundsDataGridCellStyle}"
+                ColumnHeaderStyle="{StaticResource RoundsDataGridColumnHeaderStyle}"
+                RowStyle="{StaticResource RoundsDataGridRowStyle}"
+                Style="{StaticResource RoundsDataGridStyle}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding TeamName, Mode=OneWay}" Header="Team">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="TextWrapping" Value="Wrap" />
+                                            <Setter Property="MaxWidth" Value="300" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
 
-                            <DataGridTextColumn Binding="{Binding TotalPoints, Mode=OneWay}" Header="Points" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                                <DataGridTextColumn Binding="{Binding TotalPoints, Mode=OneWay}" Header="Points" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+
+                    <!--  Matchup Pills  -->
+                    <ScrollViewer
+            x:Name="MatchupPillsScroller"
+            Height="200"
+            Margin="5"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Disabled"
+            Visibility="Collapsed">
+
+                        <StackPanel
+                Name="MatchupPillPanel"
+                CanHorizontallyScroll="True"
+                Orientation="Horizontal" />
+
+                    </ScrollViewer>
+
                 </StackPanel>
 
-                <!--  Matchup Pills  -->
-                <ScrollViewer
-                    x:Name="MatchupPillsScroller"
-                    Height="200"
-                    Margin="5"
-                    HorizontalScrollBarVisibility="Auto"
-                    VerticalScrollBarVisibility="Disabled"
-                    Visibility="Collapsed">
-
-                    <StackPanel
-                        Name="MatchupPillPanel"
-                        CanHorizontallyScroll="True"
-                        Orientation="Horizontal" />
-
-                </ScrollViewer>
-
-            </StackPanel>
 
 
-
-        </Border>
+            </Border>
+        </Viewbox>
+        
 
         <!--  Error Message  -->
         <TextBlock

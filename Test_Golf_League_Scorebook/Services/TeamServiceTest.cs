@@ -10,20 +10,20 @@ namespace Test_Golf_League_Scorebook.Services
     public class TeamServiceTest
     {
         private readonly Mock<ITeamRepository> _teamRepo;
-        private readonly Mock<ILeagueService> _leagueService;
-        private readonly Mock<IGolferTeamJunctionService> _golferTeamJunctionService;
-        private readonly Mock<IGolferLeagueJunctionService> _golferLeagueJunctionService;
+        private readonly Mock<ILeagueRepository> _leagueRepo;
+        private readonly Mock<IGolferTeamJunctionRepository> _golferTeamJunctionRepo;
+        private readonly Mock<IGolferLeagueJunctionRepository> _golferLeagueJunctionRepo;
 
         private readonly ITeamService _teamService;
 
         public TeamServiceTest()
         {
             _teamRepo = new Mock<ITeamRepository>();
-            _leagueService = new Mock<ILeagueService>();
-            _golferTeamJunctionService = new Mock<IGolferTeamJunctionService>();
-            _golferLeagueJunctionService = new Mock<IGolferLeagueJunctionService>();
+            _leagueRepo = new Mock<ILeagueRepository>();
+            _golferTeamJunctionRepo = new Mock<IGolferTeamJunctionRepository>();
+            _golferLeagueJunctionRepo = new Mock<IGolferLeagueJunctionRepository>();
 
-            _teamService = new TeamService(_teamRepo.Object, _leagueService.Object, _golferTeamJunctionService.Object, _golferLeagueJunctionService.Object);
+            _teamService = new TeamService(_teamRepo.Object, _leagueRepo.Object, _golferTeamJunctionRepo.Object, _golferLeagueJunctionRepo.Object);
         }
 
         [Fact]
@@ -38,13 +38,13 @@ namespace Test_Golf_League_Scorebook.Services
                 LeagueId = 1,
             };
 
-            _leagueService.Setup(r => r.GetById(request.LeagueId))
+            _leagueRepo.Setup(r => r.GetById(request.LeagueId))
                 .ReturnsAsync(new League { LeagueId = 1 });
 
             _teamRepo.Setup(r => r.GetTeamsByLeague(request.LeagueId))
                 .ReturnsAsync( new List<Team>{ new Team { TeamName = "Test" } } );
 
-            _golferLeagueJunctionService.Setup(r => r.GolferExistsInLeague(It.IsAny<int>(), It.IsAny<int>()))
+            _golferLeagueJunctionRepo.Setup(r => r.GolferExistsInLeague(It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(false);
 
             // Act
@@ -53,8 +53,8 @@ namespace Test_Golf_League_Scorebook.Services
             // Assert
             Assert.True(result.IsSuccess);
             _teamRepo.Verify(r => r.Add(It.IsAny<Team>()), Times.Once());
-            _golferTeamJunctionService.Verify(r => r.Add(It.IsAny<GolferTeamJunction>()), Times.Exactly(2));
-            _golferLeagueJunctionService.Verify(r => r.Add(It.IsAny<GolferLeagueJunction>()), Times.Exactly(2));
+            _golferTeamJunctionRepo.Verify(r => r.Add(It.IsAny<GolferTeamJunction>()), Times.Exactly(2));
+            _golferLeagueJunctionRepo.Verify(r => r.Add(It.IsAny<GolferLeagueJunction>()), Times.Exactly(2));
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace Test_Golf_League_Scorebook.Services
                 LeagueId = 1,
             };
 
-            _leagueService.Setup(r => r.GetById(It.IsAny<int>()))
+            _leagueRepo.Setup(r => r.GetById(It.IsAny<int>()))
                 .ReturnsAsync((League)null);
 
             var expectedOutcome = new List<string>
@@ -85,8 +85,8 @@ namespace Test_Golf_League_Scorebook.Services
             Assert.False(result.IsSuccess);
             Assert.Equal(expectedOutcome, result.ValidationErrors);
             _teamRepo.Verify(r => r.Add(It.IsAny<Team>()), Times.Never());
-            _golferTeamJunctionService.Verify(r => r.Add(It.IsAny<GolferTeamJunction>()), Times.Never());
-            _golferLeagueJunctionService.Verify(r => r.Add(It.IsAny<GolferLeagueJunction>()), Times.Never());
+            _golferTeamJunctionRepo.Verify(r => r.Add(It.IsAny<GolferTeamJunction>()), Times.Never());
+            _golferLeagueJunctionRepo.Verify(r => r.Add(It.IsAny<GolferLeagueJunction>()), Times.Never());
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace Test_Golf_League_Scorebook.Services
                 TeamId = 1,
             };
 
-            _leagueService.Setup(r => r.GetById(request.LeagueId))
+            _leagueRepo.Setup(r => r.GetById(request.LeagueId))
                 .ReturnsAsync(new League { LeagueId = 1 });
 
             _teamRepo.Setup(r => r.GetById((int)request.TeamId))
@@ -122,8 +122,8 @@ namespace Test_Golf_League_Scorebook.Services
             Assert.Equal(2, result.Team.LeagueId);
             Assert.Equal("Caleb Burns & AJ Burns", result.Team.TeamName);
             _teamRepo.Verify(r => r.Update(It.IsAny<Team>()), Times.Once());
-            _golferTeamJunctionService.Verify(r => r.Add(It.IsAny<GolferTeamJunction>()), Times.Exactly(2));
-            _golferLeagueJunctionService.Verify(r => r.Add(It.IsAny<GolferLeagueJunction>()), Times.Exactly(2));
+            _golferTeamJunctionRepo.Verify(r => r.Add(It.IsAny<GolferTeamJunction>()), Times.Exactly(2));
+            _golferLeagueJunctionRepo.Verify(r => r.Add(It.IsAny<GolferLeagueJunction>()), Times.Exactly(2));
         }
 
     }

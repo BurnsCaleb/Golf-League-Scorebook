@@ -16,8 +16,8 @@ namespace Test_Golf_League_Scorebook.Services
         private readonly Mock<IRoundService> _mockRoundService;
         private readonly Mock<ILeagueSettingService> _mockLeagueSettingService;
         private readonly Mock<IHoleScoreService> _mockHoleScoreService;
-        private readonly Mock<ITeamMatchupJunctionService> _mockTeamMatchupJunctionService;
-        private readonly Mock<IGolferMatchupJunctionService> _mockGolferMatchupJunctionService;
+        private readonly Mock<ITeamMatchupJunctionRepository> _mockTeamMatchupJunctionRepo;
+        private readonly Mock<IGolferMatchupJunctionRepository> _mockGolferMatchupJunctionRepo;
         private readonly Mock<IGolferService> _mockGolferService;
         private readonly IMatchupService _matchupService;
 
@@ -31,8 +31,8 @@ namespace Test_Golf_League_Scorebook.Services
             _mockRoundService = new Mock<IRoundService>();
             _mockLeagueSettingService = new Mock<ILeagueSettingService>();
             _mockHoleScoreService = new Mock<IHoleScoreService>();
-            _mockTeamMatchupJunctionService = new Mock<ITeamMatchupJunctionService>();
-            _mockGolferMatchupJunctionService = new Mock<IGolferMatchupJunctionService>();
+            _mockTeamMatchupJunctionRepo = new Mock<ITeamMatchupJunctionRepository>();
+            _mockGolferMatchupJunctionRepo = new Mock<IGolferMatchupJunctionRepository>();
             _mockGolferService = new Mock<IGolferService>();
 
             _matchupService = new MatchupService(
@@ -41,8 +41,8 @@ namespace Test_Golf_League_Scorebook.Services
                 _mockRoundService.Object,
                 _mockLeagueSettingService.Object,
                 _mockHoleScoreService.Object,
-                _mockTeamMatchupJunctionService.Object,
-                _mockGolferMatchupJunctionService.Object,
+                _mockTeamMatchupJunctionRepo.Object,
+                _mockGolferMatchupJunctionRepo.Object,
                 _mockGolferService.Object);
         }
 
@@ -187,10 +187,10 @@ namespace Test_Golf_League_Scorebook.Services
             _mockRuleService.Setup(r => r.CreateScorer(It.IsAny<ScoringRule>()))
                 .Returns(new StrokePlayScorer());
 
-            _mockTeamMatchupJunctionService.Setup(r => r.GetByMatchupTeam(It.IsAny<int>(), It.IsAny<int>()))
+            _mockTeamMatchupJunctionRepo.Setup(r => r.GetByMatchupTeam(It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(new TeamMatchupJunction { PointsAwarded = 0 });
 
-            _mockGolferMatchupJunctionService.Setup(r => r.GetByGolferMatchup(It.IsAny<int>(), It.IsAny<int>()))
+            _mockGolferMatchupJunctionRepo.Setup(r => r.GetByGolferMatchup(It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(new GolferMatchupJunction { PointsAwarded = 0 });
             
             // Act
