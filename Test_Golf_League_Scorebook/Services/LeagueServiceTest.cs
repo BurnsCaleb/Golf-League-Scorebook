@@ -10,24 +10,24 @@ namespace Test_Golf_League_Scorebook.Services
     public class LeagueServiceTest
     {
         private readonly Mock<ILeagueRepository> _mockLeagueRepo;
-        private readonly Mock<ICourseRepository> _mockCourseRepo;
-        private readonly Mock<ILeagueSettingRepository> _mockLeagueSettingRepo;
-        private readonly Mock<IMatchupRepository> _mockMatchupRepo;
-        private readonly Mock<ITeamMatchupJunctionRepository> _mockTeamMatchupRepo;
-        private readonly Mock<IGolferTeamJunctionRepository> _mockGolferTeamRepo;
-        private readonly Mock<IGolferMatchupJunctionRepository> _mockGolferMatchupRepo;
+        private readonly Mock<ICourseService> _mockCourseService;
+        private readonly Mock<ILeagueSettingService> _mockLeagueSettingService;
+        private readonly Mock<IMatchupService> _mockMatchupService;
+        private readonly Mock<ITeamMatchupJunctionService> _mockTeamMatchupService;
+        private readonly Mock<IGolferTeamJunctionService> _mockGolferTeamService;
+        private readonly Mock<IGolferMatchupJunctionService> _mockGolferMatchupService;
         private readonly ILeagueService _leagueService;
 
         public LeagueServiceTest()
         {
             _mockLeagueRepo = new Mock<ILeagueRepository>();
-            _mockCourseRepo = new Mock<ICourseRepository>();
-            _mockLeagueSettingRepo = new Mock<ILeagueSettingRepository>();
-            _mockMatchupRepo = new Mock<IMatchupRepository>();
-            _mockTeamMatchupRepo = new Mock<ITeamMatchupJunctionRepository>();
-            _mockGolferTeamRepo = new Mock<IGolferTeamJunctionRepository>();
-            _mockGolferMatchupRepo = new Mock<IGolferMatchupJunctionRepository>();
-            _leagueService = new LeagueService(_mockLeagueRepo.Object, _mockLeagueSettingRepo.Object, _mockCourseRepo.Object, _mockMatchupRepo.Object, _mockTeamMatchupRepo.Object, _mockGolferTeamRepo.Object, _mockGolferMatchupRepo.Object);
+            _mockCourseService = new Mock<ICourseService>();
+            _mockLeagueSettingService = new Mock<ILeagueSettingService>();
+            _mockMatchupService = new Mock<IMatchupService>();
+            _mockTeamMatchupService = new Mock<ITeamMatchupJunctionService>();
+            _mockGolferTeamService = new Mock<IGolferTeamJunctionService>();
+            _mockGolferMatchupService = new Mock<IGolferMatchupJunctionService>();
+            _leagueService = new LeagueService(_mockLeagueRepo.Object, _mockLeagueSettingService.Object, _mockCourseService.Object, _mockMatchupService.Object, _mockTeamMatchupService.Object, _mockGolferTeamService.Object, _mockGolferMatchupService.Object);
         }
 
         #region CreateLeague Method Tests
@@ -43,10 +43,10 @@ namespace Test_Golf_League_Scorebook.Services
                 CourseId = 1,
             };
 
-            _mockCourseRepo.Setup(r => r.GetById(request.CourseId))
+            _mockCourseService.Setup(r => r.GetById(request.CourseId))
                 .ReturnsAsync(new Course { CourseId = 1 });
 
-            _mockLeagueSettingRepo.Setup(r => r.GetById(request.LeagueSettingsId))
+            _mockLeagueSettingService.Setup(r => r.GetById(request.LeagueSettingsId))
                 .ReturnsAsync(new LeagueSetting { LeagueSettingsId = 1 });
 
             // Act
@@ -69,10 +69,10 @@ namespace Test_Golf_League_Scorebook.Services
                 CourseId = 1,
             };
 
-            _mockCourseRepo.Setup(r => r.GetById(request.CourseId))
+            _mockCourseService.Setup(r => r.GetById(request.CourseId))
                 .ReturnsAsync((Course)null);
 
-            _mockLeagueSettingRepo.Setup(r => r.GetById(request.LeagueSettingsId))
+            _mockLeagueSettingService.Setup(r => r.GetById(request.LeagueSettingsId))
                 .ReturnsAsync((LeagueSetting)null);
 
             var expectedOutcome = new List<string>
@@ -113,10 +113,10 @@ namespace Test_Golf_League_Scorebook.Services
             _mockLeagueRepo.Setup(r => r.GetByName(request.LeagueName))
                 .ReturnsAsync(existentLeague);
 
-            _mockCourseRepo.Setup(r => r.GetById(request.CourseId))
+            _mockCourseService.Setup(r => r.GetById(request.CourseId))
                 .ReturnsAsync(new Course { CourseId = 1 });
 
-            _mockLeagueSettingRepo.Setup(r => r.GetById(request.LeagueSettingsId))
+            _mockLeagueSettingService.Setup(r => r.GetById(request.LeagueSettingsId))
                 .ReturnsAsync(new LeagueSetting { LeagueSettingsId = 1 });
 
             // Act
@@ -162,7 +162,7 @@ namespace Test_Golf_League_Scorebook.Services
 
 
 
-            _mockGolferTeamRepo.Setup(r => r.GetAllGolfersByTeam(It.IsAny<List<int>>()))
+            _mockGolferTeamService.Setup(r => r.GetAllGolfersByTeam(It.IsAny<List<int>>()))
                 .Returns((List<int> teamIds) => Task.FromResult(golfers
                 .Where(g => teamIds.Any(id => g.GolferId == id * 2 || g.GolferId == id * 2 - 1))
                 .ToList()));
@@ -175,9 +175,9 @@ namespace Test_Golf_League_Scorebook.Services
             Assert.True(result.IsSuccess);
 
             // 4 teams = 3 rounds, 2 matchups per round = 6 total matchups
-            _mockMatchupRepo.Verify(x => x.Add(It.IsAny<Matchup>()), Times.Exactly(6));
-            _mockTeamMatchupRepo.Verify(x => x.Add(It.IsAny<TeamMatchupJunction>()), Times.Exactly(12)); // 2 teams per matchup
-            _mockGolferMatchupRepo.Verify(x => x.Add(It.IsAny<GolferMatchupJunction>()), Times.Exactly(24)); // 2 golfers per team
+            _mockMatchupService.Verify(x => x.Add(It.IsAny<Matchup>()), Times.Exactly(6));
+            _mockTeamMatchupService.Verify(x => x.Add(It.IsAny<TeamMatchupJunction>()), Times.Exactly(12)); // 2 teams per matchup
+            _mockGolferMatchupService.Verify(x => x.Add(It.IsAny<GolferMatchupJunction>()), Times.Exactly(24)); // 2 golfers per team
         }
 
         [Fact]
@@ -207,7 +207,7 @@ namespace Test_Golf_League_Scorebook.Services
 
 
 
-            _mockGolferTeamRepo.Setup(r => r.GetAllGolfersByTeam(It.IsAny<List<int>>()))
+            _mockGolferTeamService.Setup(r => r.GetAllGolfersByTeam(It.IsAny<List<int>>()))
                 .Returns((List<int> teamIds) => Task.FromResult(golfers
                 .Where(g => teamIds.Any(id => g.GolferId == id * 2 || g.GolferId == id * 2 - 1))
                 .ToList()));
@@ -220,9 +220,9 @@ namespace Test_Golf_League_Scorebook.Services
             Assert.True(result.IsSuccess);
 
             // 4 teams = 3 rounds, 2 matchups per round = 6 total matchups
-            _mockMatchupRepo.Verify(x => x.Add(It.IsAny<Matchup>()), Times.Exactly(3));
-            _mockTeamMatchupRepo.Verify(x => x.Add(It.IsAny<TeamMatchupJunction>()), Times.Exactly(6)); // 2 teams per matchup
-            _mockGolferMatchupRepo.Verify(x => x.Add(It.IsAny<GolferMatchupJunction>()), Times.Exactly(12)); // 2 golfers per team
+            _mockMatchupService.Verify(x => x.Add(It.IsAny<Matchup>()), Times.Exactly(3));
+            _mockTeamMatchupService.Verify(x => x.Add(It.IsAny<TeamMatchupJunction>()), Times.Exactly(6)); // 2 teams per matchup
+            _mockGolferMatchupService.Verify(x => x.Add(It.IsAny<GolferMatchupJunction>()), Times.Exactly(12)); // 2 golfers per team
         }
         #endregion
     }

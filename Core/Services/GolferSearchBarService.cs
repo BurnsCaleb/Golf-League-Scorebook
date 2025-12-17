@@ -2,19 +2,18 @@
 using Core.Interfaces.Repository;
 using Core.Interfaces.Service;
 using Core.Models;
-using System.Threading.Tasks;
 
 namespace Core.Services
 {
     public class GolferSearchBarService : IGolferSearchBarService
     {
         private readonly IGolferRepository _golferRepo;
-        private readonly IGolferLeagueJunctionRepository _golferLeagueJunctionRepo;
+        private readonly IGolferLeagueJunctionService _golferLeagueJunctionService;
 
-        public GolferSearchBarService(IGolferRepository golferRepo, IGolferLeagueJunctionRepository golferLeagueJunctionRepo)
+        public GolferSearchBarService(IGolferRepository golferRepo, IGolferLeagueJunctionService golferLeagueJunctionRepo)
         {
             _golferRepo = golferRepo;
-            _golferLeagueJunctionRepo = golferLeagueJunctionRepo;
+            _golferLeagueJunctionService = golferLeagueJunctionRepo;
         }
 
         public async Task<CreateGolferSearchBarResult> PerformGolferCheck(CreateGolferSearchBarRequest request)
@@ -39,7 +38,7 @@ namespace Core.Services
                 }
 
                 // Check if golfer exists in same league
-                var sameLeague = await _golferLeagueJunctionRepo.GolferExistsInLeague(golfer.GolferId, request.League.LeagueId);
+                var sameLeague = await _golferLeagueJunctionService.GolferExistsInLeague(golfer.GolferId, request.League.LeagueId);
                 if (sameLeague)
                 {
                     return CreateGolferSearchBarResult.Failure(

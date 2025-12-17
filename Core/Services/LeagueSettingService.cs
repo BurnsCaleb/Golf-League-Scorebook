@@ -2,19 +2,18 @@
 using Core.Interfaces.Repository;
 using Core.Interfaces.Service;
 using Core.Models;
-using System.Threading.Tasks;
 
 namespace Core.Services
 {
     public class LeagueSettingService : ILeagueSettingService
     {
         private readonly ILeagueSettingRepository _settingRepo;
-        private readonly IScoringRuleRepository _ruleRepo;
+        private readonly IScoringRuleService _ruleService;
 
-        public LeagueSettingService(ILeagueSettingRepository settingRepo, IScoringRuleRepository ruleRepo)
+        public LeagueSettingService(ILeagueSettingRepository settingRepo, IScoringRuleService ruleService)
         {
             _settingRepo = settingRepo;
-            _ruleRepo = ruleRepo;
+            _ruleService = ruleService;
         }
 
         public async Task<CreateLeagueSettingResult> CreateLeagueSetting(CreateLeagueSettingRequest request)
@@ -137,7 +136,7 @@ namespace Core.Services
                 errors.Add("League Settings name is required.");
             }
 
-            var scoringRule = await _ruleRepo.GetById(request.ScoringRuleId);
+            var scoringRule = await _ruleService.GetById(request.ScoringRuleId);
             if (scoringRule == null)
             {
                 errors.Add("Scoring rule is required.");

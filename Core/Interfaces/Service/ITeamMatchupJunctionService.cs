@@ -8,5 +8,6 @@ namespace Core.Interfaces.Service
         Task<int> GetTotalTeamPointsByYear(int teamId, int year);
         Task<List<TeamMatchupJunction>> GetByTeam(int teamId);
         Task<TeamMatchupJunction> GetByMatchupTeam(int matchupId, int teamId);
+        void Add(TeamMatchupJunction teamMatchupJunction);
     }
 }

@@ -8,22 +8,22 @@ namespace Core.Services
     public class LeagueService : ILeagueService
     {
         private readonly ILeagueRepository _leagueRepo;
-        private readonly ICourseRepository _courseRepo;
-        private readonly ILeagueSettingRepository _settingsRepo;
-        private readonly IMatchupRepository _matchupRepo;
-        private readonly ITeamMatchupJunctionRepository _teamMatchupJunctionRepo;
-        private readonly IGolferTeamJunctionRepository _golferTeamJunctionRepo;
-        private readonly IGolferMatchupJunctionRepository _golferMatchupJunctionRepo;
+        private readonly ICourseService _courseService;
+        private readonly ILeagueSettingService _settingService;
+        private readonly IMatchupService _matchupService;
+        private readonly ITeamMatchupJunctionService _teamMatchupJunctionService;
+        private readonly IGolferTeamJunctionService _golferTeamJunctionService;
+        private readonly IGolferMatchupJunctionService _golferMatchupJunctionService;
 
-        public LeagueService(ILeagueRepository leagueRepo, ILeagueSettingRepository leagueSettingRepo, ICourseRepository courseRepo, IMatchupRepository matchupRepo, ITeamMatchupJunctionRepository teamMatchupJunctionRepo, IGolferTeamJunctionRepository golferTeamJunctionRepo, IGolferMatchupJunctionRepository golferMatchupJunctionRepo)
+        public LeagueService(ILeagueRepository leagueRepo, ILeagueSettingService leagueSettingService, ICourseService courseService, IMatchupService matchupService, ITeamMatchupJunctionService teamMatchupJunctionService, IGolferTeamJunctionService golferTeamJunctionService, IGolferMatchupJunctionService golferMatchupJunctionService)
         {
             _leagueRepo = leagueRepo;
-            _courseRepo = courseRepo;
-            _settingsRepo = leagueSettingRepo;
-            _matchupRepo = matchupRepo;
-            _teamMatchupJunctionRepo = teamMatchupJunctionRepo;
-            _golferTeamJunctionRepo = golferTeamJunctionRepo;
-            _golferMatchupJunctionRepo = golferMatchupJunctionRepo;
+            _courseService = courseService;
+            _settingService = leagueSettingService;
+            _matchupService = matchupService;
+            _teamMatchupJunctionService = teamMatchupJunctionService;
+            _golferTeamJunctionService = golferTeamJunctionService;
+            _golferMatchupJunctionService = golferMatchupJunctionService;
         }
 
         public async Task<CreateLeagueResult> CreateLeague(CreateLeagueRequest request)
@@ -95,8 +95,7 @@ namespace Core.Services
                             };
 
                             // Save to database to get id for junction tables
-                            _matchupRepo.Add(newMatchup);
-                            await _matchupRepo.SaveChanges();
+                            await _matchupService.Add(newMatchup);
 
                             // Create team junction tables
                             var team1 = new TeamMatchupJunction
@@ -112,11 +111,11 @@ namespace Core.Services
                             };
 
                             // Add matchup junctions to database
-                            _teamMatchupJunctionRepo.Add(team1);
-                            _teamMatchupJunctionRepo.Add(team2);
+                            _teamMatchupJunctionService.Add(team1);
+                            _teamMatchupJunctionService.Add(team2);
 
                             // Get golfersIds involved in this matchup
-                            var golfers = await _golferTeamJunctionRepo.GetAllGolfersByTeam(new List<int> { team1.TeamId, team2.TeamId });
+                            var golfers = await _golferTeamJunctionService.GetAllGolfersByTeam(new List<int> { team1.TeamId, team2.TeamId });
 
                             // Create junctions for every golfer
                             foreach (var golfer in golfers)
@@ -127,7 +126,7 @@ namespace Core.Services
                                     MatchupId = newMatchup.MatchupId
                                 };
 
-                                _golferMatchupJunctionRepo.Add(golferJunction);
+                                _golferMatchupJunctionService.Add(golferJunction);
 
                             }
 
@@ -226,13 +225,13 @@ namespace Core.Services
                 errors.Add("League name is required.");
             }
 
-            var course = await _courseRepo.GetById(request.CourseId);
+            var course = await _courseService.GetById(request.CourseId);
             if (course == null)
             {
                 errors.Add("Course is required");
             }
 
-            var settings = await _settingsRepo.GetById(request.LeagueSettingsId);
+            var settings = await _settingService.GetById(request.LeagueSettingsId);
             if (settings == null)
             {
                 errors.Add("League settings is required");

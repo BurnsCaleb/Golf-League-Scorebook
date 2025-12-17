@@ -32,7 +32,7 @@ namespace Core.Services
                 MatchupId = matchup.MatchupId,
             };
 
-            await _golferMatchupJunctionService.Add(junction);
+            _golferMatchupJunctionService.Add(junction);
 
             var team = await _teamService.GetByGolferLeague(oldGolfer.GolferId, matchup.LeagueId);
 
@@ -65,7 +65,7 @@ namespace Core.Services
                 MatchupId = matchup.MatchupId,
             };
 
-            await _golferMatchupJunctionService.Add(junction);
+            _golferMatchupJunctionService.Add(junction);
 
             // Delete substitute record
             await _substituteRepo.Delete(sub.GolferId, sub.TeamId, sub.MatchupId);

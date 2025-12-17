@@ -32,5 +32,10 @@ namespace Core.Services
         {
             return await _teamMatchupJunctionRepo.GetByMatchupTeam(matchupId, teamId);
         }
+
+        public void Add(TeamMatchupJunction teamMatchupJunction)
+        {
+            _teamMatchupJunctionRepo.Add(teamMatchupJunction);
+        }
     }
 }

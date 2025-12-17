@@ -3,20 +3,19 @@ using Core.DTOs.HoleScoreDTOs;
 using Core.Interfaces.Repository;
 using Core.Interfaces.Service;
 using Core.Models;
-using System.Threading.Tasks;
 
 namespace Core.Services
 {
     public class HoleScoreService : IHoleScoreService
     {
         private readonly IHoleScoreRepository _holeScoreRepo;
-        private readonly IGolferTeamJunctionRepository _golferTeamJunctionRepo;
+        private readonly IGolferTeamJunctionService _golferTeamJunctionService;
         private readonly ISubstituteService _substituteService;
 
-        public HoleScoreService(IHoleScoreRepository holeScoreRepo, IGolferTeamJunctionRepository golferTeamJunctionRepo, ISubstituteService substituteService)
+        public HoleScoreService(IHoleScoreRepository holeScoreRepo, IGolferTeamJunctionService golferTeamJunctionService, ISubstituteService substituteService)
         {
             _holeScoreRepo = holeScoreRepo;
-            _golferTeamJunctionRepo = golferTeamJunctionRepo;
+            _golferTeamJunctionService = golferTeamJunctionService;
             _substituteService = substituteService;
         }
 
@@ -114,7 +113,7 @@ namespace Core.Services
             foreach (Team team in teams)
             {
                 // Get current golfers team id
-                GolferTeamJunction junction = await _golferTeamJunctionRepo.GetById(currentGolfer.GolferId, team.TeamId);
+                GolferTeamJunction junction = await _golferTeamJunctionService.GetById(currentGolfer.GolferId, team.TeamId);
                 if (junction != null)
                 {
                     newTeamId = junction.TeamId;

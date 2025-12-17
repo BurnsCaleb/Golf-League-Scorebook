@@ -1,5 +1,6 @@
 ﻿using Core.DTOs.GolferSearchBarDTOs;
 using Core.Interfaces.Repository;
+using Core.Interfaces.Service;
 using Core.Models;
 using Core.Services;
 using Moq;
@@ -9,14 +10,14 @@ namespace Test_Golf_League_Scorebook.Services
     public class GolferSearchBarServiceTest
     {
         private readonly Mock<IGolferRepository> _mockGolferRepo;
-        private readonly Mock<IGolferLeagueJunctionRepository> _mockJunctionRepo;
+        private readonly Mock<IGolferLeagueJunctionService> _mockJunctionService;
         private readonly GolferSearchBarService _searchService;
 
         public GolferSearchBarServiceTest()
         {
             _mockGolferRepo = new Mock<IGolferRepository>();
-            _mockJunctionRepo = new Mock<IGolferLeagueJunctionRepository>();
-            _searchService = new GolferSearchBarService(_mockGolferRepo.Object, _mockJunctionRepo.Object);
+            _mockJunctionService = new Mock<IGolferLeagueJunctionService>();
+            _searchService = new GolferSearchBarService(_mockGolferRepo.Object, _mockJunctionService.Object);
         }
 
         [Fact]
@@ -50,7 +51,7 @@ namespace Test_Golf_League_Scorebook.Services
             _mockGolferRepo.Setup(r => r.GetByName(golfer.FullName))
                 .ReturnsAsync(golfer);
 
-            _mockJunctionRepo.Setup(r => r.GolferExistsInLeague(golfer.GolferId, league.LeagueId))
+            _mockJunctionService.Setup(r => r.GolferExistsInLeague(golfer.GolferId, league.LeagueId))
                 .ReturnsAsync(false);
 
             // Act
@@ -167,7 +168,7 @@ namespace Test_Golf_League_Scorebook.Services
             _mockGolferRepo.Setup(r => r.GetByName(golfer.FullName))
                 .ReturnsAsync(golfer);
 
-            _mockJunctionRepo.Setup(r => r.GolferExistsInLeague(golfer.GolferId, league.LeagueId))
+            _mockJunctionService.Setup(r => r.GolferExistsInLeague(golfer.GolferId, league.LeagueId))
                 .ReturnsAsync(true);
 
             // Act

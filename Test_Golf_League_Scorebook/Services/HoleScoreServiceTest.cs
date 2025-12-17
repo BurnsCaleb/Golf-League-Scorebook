@@ -10,16 +10,16 @@ namespace Test_Golf_League_Scorebook.Services
     public class HoleScoreServiceTest
     {
         private readonly Mock<IHoleScoreRepository> _holeScoreRepo;
-        private readonly Mock<IGolferTeamJunctionRepository> _junctionRepo;
+        private readonly Mock<IGolferTeamJunctionService> _junctionService;
         private readonly IHoleScoreService _holeScoreService;
         private readonly Mock<ISubstituteService> _substituteService;
 
         public HoleScoreServiceTest()
         {
             _holeScoreRepo = new Mock<IHoleScoreRepository>();
-            _junctionRepo = new Mock<IGolferTeamJunctionRepository>();
+            _junctionService = new Mock<IGolferTeamJunctionService>();
             _substituteService = new Mock<ISubstituteService>();
-            _holeScoreService = new HoleScoreService(_holeScoreRepo.Object, _junctionRepo.Object, _substituteService.Object);
+            _holeScoreService = new HoleScoreService(_holeScoreRepo.Object, _junctionService.Object, _substituteService.Object);
         }
 
         [Fact]

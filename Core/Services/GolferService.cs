@@ -8,15 +8,13 @@ namespace Core.Services
     public class GolferService : IGolferService
     {
         private readonly IGolferRepository _golferRepo;
-        private readonly IRoundRepository _roundRepo;
         private readonly IRoundService _roundService;
-        private readonly IMatchupRepository _matchupRepo;
+        private readonly IMatchupService _matchupService;
 
-        public GolferService(IGolferRepository golferRepo, IRoundRepository roundRepo, IRoundService roundService, IMatchupRepository matchupRepo)
+        public GolferService(IGolferRepository golferRepo, IRoundService roundService, IMatchupService matchupRepo)
         {
             _golferRepo = golferRepo;
-            _roundRepo = roundRepo;
-            _matchupRepo = matchupRepo;
+            _matchupService = matchupRepo;
             _roundService = roundService;
         }
 
@@ -193,13 +191,13 @@ namespace Core.Services
             Golfer golfer = await _golferRepo.GetById(junction.GolferId);
 
             // Get gross score
-            int grossScore = await _roundRepo.GetGrossScore(golfer.GolferId, junction.MatchupId);
+            int grossScore = await _roundService.GetGrossScore(golfer.GolferId, junction.MatchupId);
 
             // get net score
-            int netScore = await _roundRepo.GetNetScore(golfer.GolferId, junction.MatchupId);
+            int netScore = await _roundService.GetNetScore(golfer.GolferId, junction.MatchupId);
 
             // get matchup name
-            string matchupName = await _matchupRepo.GetMatchupName(junction.MatchupId);
+            string matchupName = await _matchupService.GetMatchupName(junction.MatchupId);
 
             var request = new GolferRoundViewModelRequest
             {

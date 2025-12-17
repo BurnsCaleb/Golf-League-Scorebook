@@ -334,5 +334,11 @@ namespace Core.Services
         {
             return await _matchupRepo.GetMatchupName(matchupId);
         }
+
+        public async Task Add(Matchup matchup)
+        {
+            _matchupRepo.Add(matchup);
+            await _matchupRepo.SaveChanges();
+        }
     }
 }

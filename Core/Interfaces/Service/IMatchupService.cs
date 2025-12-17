@@ -19,5 +19,6 @@ namespace Core.Interfaces.Service
         Task<EndMatchupResult> EndMatchup(EndMatchupRequest request);
         List<GolferHoleScore>? GrabMatchupScores(Matchup matchup);
         Task<string> GetMatchupName(int matchupId);
+        Task Add(Matchup matchup);
     }
 }

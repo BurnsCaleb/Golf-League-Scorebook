@@ -10,14 +10,14 @@ namespace Test_Golf_League_Scorebook.Services
     public class LeagueSettingsServiceTest
     {
         private readonly Mock<ILeagueSettingRepository> _mockSettingRepo;
-        private readonly Mock<IScoringRuleRepository> _mockRuleRepo;
+        private readonly Mock<IScoringRuleService> _mockRuleService;
         private readonly ILeagueSettingService _leagueSettingService;
 
         public LeagueSettingsServiceTest()
         {
             _mockSettingRepo = new Mock<ILeagueSettingRepository>();
-            _mockRuleRepo = new Mock<IScoringRuleRepository>();
-            _leagueSettingService = new LeagueSettingService(_mockSettingRepo.Object, _mockRuleRepo.Object);
+            _mockRuleService = new Mock<IScoringRuleService>();
+            _leagueSettingService = new LeagueSettingService(_mockSettingRepo.Object, _mockRuleService.Object);
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace Test_Golf_League_Scorebook.Services
                 TeamSize = 2
             };
 
-            _mockRuleRepo.Setup(r => r.GetById(1))
+            _mockRuleService.Setup(r => r.GetById(1))
                 .ReturnsAsync(new ScoringRule { ScoringRuleId = 1 });
 
             // Act
@@ -58,7 +58,7 @@ namespace Test_Golf_League_Scorebook.Services
                 TeamSize = 0
             };
 
-            _mockRuleRepo.Setup(r => r.GetById(0))
+            _mockRuleService.Setup(r => r.GetById(0))
                 .ReturnsAsync((ScoringRule)null);
 
             var expectedOutcome = new List<string>
@@ -105,7 +105,7 @@ namespace Test_Golf_League_Scorebook.Services
             _mockSettingRepo.Setup(r => r.GetById(It.IsAny<int>()))
                 .ReturnsAsync(existingSetting);
 
-            _mockRuleRepo.Setup(r => r.GetById(It.IsAny<int>()))
+            _mockRuleService.Setup(r => r.GetById(It.IsAny<int>()))
                 .ReturnsAsync(new ScoringRule { ScoringRuleId = 1 });
 
             // Act

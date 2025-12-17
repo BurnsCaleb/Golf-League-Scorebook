@@ -8,7 +8,7 @@ namespace Core.Interfaces.Service
         Task<List<GolferMatchupJunction>> GetById(List<int> golferId, List<int> matchupId);
         Task<int> GetTotalGolferPointsByYear(int golferId, int year);
         Task<GolferMatchupJunction> GetByGolferMatchup(int golferId, int matchupId);
-        Task Add(GolferMatchupJunction junction);
+        void Add(GolferMatchupJunction junction);
         Task Delete(GolferMatchupJunction junction);
         Task Update(GolferMatchupJunction junction);
     }

@@ -139,7 +139,8 @@ namespace Test_Golf_League_Scorebook.Services
                 },
                 League = new League
                 {
-                    LeagueSettings = new LeagueSetting { ScoringRule = new ScoringRule { RuleName = "Stroke Play" } }
+                    LeagueSettings = new LeagueSetting { ScoringRule = new ScoringRule { RuleName = "Stroke Play" } },
+                    Course = new Course { CourseSlope = 92, CourseRating = 32.6, NumHoles = 18 }
                 }
             };
 

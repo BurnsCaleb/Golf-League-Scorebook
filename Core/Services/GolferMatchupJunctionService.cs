@@ -34,10 +34,9 @@ namespace Core.Services
             return await _golferMatchupJunctionRepo.GetByGolferMatchup(golferId, matchupId);
         }
 
-        public async Task Add(GolferMatchupJunction junction)
+        public void Add(GolferMatchupJunction junction)
         {
             _golferMatchupJunctionRepo.Add(junction);
-            await _golferMatchupJunctionRepo.SaveChanges();
         }
 
         public async Task Delete(GolferMatchupJunction junction)
