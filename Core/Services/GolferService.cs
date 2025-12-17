@@ -9,12 +9,12 @@ namespace Core.Services
     {
         private readonly IGolferRepository _golferRepo;
         private readonly IRoundService _roundService;
-        private readonly IMatchupService _matchupService;
+        private readonly IMatchupRepository _matchupRepo;
 
-        public GolferService(IGolferRepository golferRepo, IRoundService roundService, IMatchupService matchupRepo)
+        public GolferService(IGolferRepository golferRepo, IRoundService roundService, IMatchupRepository matchupRepo)
         {
             _golferRepo = golferRepo;
-            _matchupService = matchupRepo;
+            _matchupRepo = matchupRepo;
             _roundService = roundService;
         }
 
@@ -197,7 +197,7 @@ namespace Core.Services
             int netScore = await _roundService.GetNetScore(golfer.GolferId, junction.MatchupId);
 
             // get matchup name
-            string matchupName = await _matchupService.GetMatchupName(junction.MatchupId);
+            string matchupName = await _matchupRepo.GetMatchupName(junction.MatchupId);
 
             var request = new GolferRoundViewModelRequest
             {

@@ -15,19 +15,19 @@ namespace Core.Services
         private readonly IRoundService _roundService;
         private readonly ILeagueSettingService _leagueSettingService;
         private readonly IHoleScoreService _holeScoreService;
-        private readonly ITeamMatchupJunctionService _teamMatchupJunctionService;
-        private readonly IGolferMatchupJunctionService _golferMatchupJunctionService;
+        private readonly ITeamMatchupJunctionRepository _teamMatchupJunctionRepo;
+        private readonly IGolferMatchupJunctionRepository _golferMatchupJunctionRepo;
         private readonly IGolferService _golferService;
 
-        public MatchupService(IMatchupRepository matchupRepo, IScoringRuleService ruleService, IRoundService roundService, ILeagueSettingService leagueSettingService, IHoleScoreService holeScoreService, ITeamMatchupJunctionService teamMatchupJunctionService, IGolferMatchupJunctionService golferMatchupJunctionService, IGolferService golferService)
+        public MatchupService(IMatchupRepository matchupRepo, IScoringRuleService ruleService, IRoundService roundService, ILeagueSettingService leagueSettingService, IHoleScoreService holeScoreService, ITeamMatchupJunctionRepository teamMatchupJunctionRepo, IGolferMatchupJunctionRepository golferMatchupJunctionRepo, IGolferService golferService)
         {
             _matchupRepo = matchupRepo;
             _ruleService = ruleService;
             _roundService = roundService;
             _leagueSettingService = leagueSettingService;
             _holeScoreService = holeScoreService;
-            _teamMatchupJunctionService = teamMatchupJunctionService;
-            _golferMatchupJunctionService = golferMatchupJunctionService;
+            _teamMatchupJunctionRepo = teamMatchupJunctionRepo;
+            _golferMatchupJunctionRepo = golferMatchupJunctionRepo;
             _golferService = golferService;
         }
 
@@ -221,14 +221,14 @@ namespace Core.Services
                 if (!result.isGolfer)
                 {
                     // update teamMatchupJunction
-                    var junction = await _teamMatchupJunctionService.GetByMatchupTeam(request.Matchup.MatchupId, result.id);
+                    var junction = await _teamMatchupJunctionRepo.GetByMatchupTeam(request.Matchup.MatchupId, result.id);
 
                     junction.PointsAwarded = (int)result.points;
                 }
                 else
                 {
                     // select golfer matchup junction for this golfer and matchup();
-                    var junction = await _golferMatchupJunctionService.GetByGolferMatchup(result.id, request.Matchup.MatchupId);
+                    var junction = await _golferMatchupJunctionRepo.GetByGolferMatchup(result.id, request.Matchup.MatchupId);
 
                     // Update points awarded
                     junction.PointsAwarded = (int)result.points;

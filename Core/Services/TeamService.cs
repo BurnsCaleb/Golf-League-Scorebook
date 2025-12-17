@@ -2,22 +2,23 @@
 using Core.Interfaces.Repository;
 using Core.Interfaces.Service;
 using Core.Models;
+using System.Threading.Tasks;
 
 namespace Core.Services
 {
     public class TeamService : ITeamService
     {
         private readonly ITeamRepository _teamRepo;
-        private readonly ILeagueService _leagueService;
-        private readonly IGolferTeamJunctionService _golferTeamJunctionService;
-        private readonly IGolferLeagueJunctionService _golferLeagueService;
+        private readonly ILeagueRepository _leagueRepo;
+        private readonly IGolferTeamJunctionRepository _golferTeamJunctionRepo;
+        private readonly IGolferLeagueJunctionRepository _golferLeagueRepo;
 
-        public TeamService(ITeamRepository teamRepo, ILeagueService leagueService, IGolferTeamJunctionService golferTeamJunctionService, IGolferLeagueJunctionService golferLeagueService)
+        public TeamService(ITeamRepository teamRepo, ILeagueRepository leagueRepo, IGolferTeamJunctionRepository golferTeamJunctionRepo, IGolferLeagueJunctionRepository golferLeagueRepo)
         {
             _teamRepo = teamRepo;
-            _leagueService = leagueService;
-            _golferTeamJunctionService = golferTeamJunctionService;
-            _golferLeagueService = golferLeagueService;
+            _leagueRepo = leagueRepo;
+            _golferTeamJunctionRepo = golferTeamJunctionRepo;
+            _golferLeagueRepo = golferLeagueRepo;
         }
 
         public async Task<CreateTeamResult> CreateTeam(CreateTeamRequest request)
@@ -51,7 +52,7 @@ namespace Core.Services
             foreach(Golfer golfer in request.Golfers)
             {
                 // Check for Golfer League conflicts
-                var conflict = await _golferLeagueService.GolferExistsInLeague(golfer.GolferId, request.LeagueId);
+                var conflict = await _golferLeagueRepo.GolferExistsInLeague(golfer.GolferId, request.LeagueId);
 
                 if (conflict)
                 {
@@ -70,7 +71,7 @@ namespace Core.Services
                 CreateGolferTeamJunction(request, team.TeamId);
 
                 // Create GolferLeagueJunctions
-                CreateGolferLeagueJunction(request);
+                await CreateGolferLeagueJunction(request);
 
                 return CreateTeamResult.Success(team);
             }
@@ -118,7 +119,7 @@ namespace Core.Services
                 CreateGolferTeamJunction(request, teamToUpdate.TeamId);
 
                 // Replace GolferLeagueJunctions
-                CreateGolferLeagueJunction(request);
+                await CreateGolferLeagueJunction(request);
 
                 return CreateTeamResult.Success(teamToUpdate);
             }
@@ -140,7 +141,7 @@ namespace Core.Services
             }
 
             // League Exists
-            var league = await _leagueService.GetById(request.LeagueId);
+            var league = await _leagueRepo.GetById(request.LeagueId);
             if (league == null)
             {
                 errors.Add("League is required");
@@ -152,7 +153,7 @@ namespace Core.Services
         private void CreateGolferTeamJunction(CreateTeamRequest request, int teamId)
         {
             // Delete any instance with this TeamId
-            _golferTeamJunctionService.DeleteByTeamId(teamId);
+            _golferTeamJunctionRepo.DeleteByTeamId(teamId);
 
             foreach (Golfer golfer in request.Golfers)
             {
@@ -163,18 +164,18 @@ namespace Core.Services
                     TeamId = teamId
                 };
 
-                _golferTeamJunctionService.Add(junction);
+                _golferTeamJunctionRepo.Add(junction);
             }
 
-            _golferTeamJunctionService.SaveChanges();
+            _golferTeamJunctionRepo.SaveChanges();
         }
 
-        private void CreateGolferLeagueJunction(CreateTeamRequest request)
+        private async Task CreateGolferLeagueJunction(CreateTeamRequest request)
         {
             foreach (Golfer golfer in request.Golfers)
             {
                 // Delete any instance with this GolferId
-                _golferLeagueService.DeleteByGolferId(golfer.GolferId);
+                await _golferLeagueRepo.DeleteByGolferId(golfer.GolferId);
 
                 // Create new junction
                 var junction = new GolferLeagueJunction
@@ -183,10 +184,10 @@ namespace Core.Services
                     LeagueId = request.LeagueId
                 };
 
-                _golferLeagueService.Add(junction);
+                _golferLeagueRepo.Add(junction);
             }
 
-            _golferLeagueService.SaveChanges();
+            await _golferLeagueRepo.SaveChanges();
         }
 
         public async Task<List<Team>> GetTeamsByLeague(int leagueId)

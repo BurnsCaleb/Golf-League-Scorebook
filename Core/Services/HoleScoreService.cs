@@ -9,14 +9,14 @@ namespace Core.Services
     public class HoleScoreService : IHoleScoreService
     {
         private readonly IHoleScoreRepository _holeScoreRepo;
-        private readonly IGolferTeamJunctionService _golferTeamJunctionService;
-        private readonly ISubstituteService _substituteService;
+        private readonly IGolferTeamJunctionRepository _golferTeamJunctionRepo;
+        private readonly ISubstituteRepository _substituteRepo;
 
-        public HoleScoreService(IHoleScoreRepository holeScoreRepo, IGolferTeamJunctionService golferTeamJunctionService, ISubstituteService substituteService)
+        public HoleScoreService(IHoleScoreRepository holeScoreRepo, IGolferTeamJunctionRepository golferTeamJunctionRepo, ISubstituteRepository substituteRepo)
         {
             _holeScoreRepo = holeScoreRepo;
-            _golferTeamJunctionService = golferTeamJunctionService;
-            _substituteService = substituteService;
+            _golferTeamJunctionRepo = golferTeamJunctionRepo;
+            _substituteRepo = substituteRepo;
         }
 
         public async Task<HoleScore> GetByGolferRoundHole(int golferId, int roundId, int holeId)
@@ -113,7 +113,7 @@ namespace Core.Services
             foreach (Team team in teams)
             {
                 // Get current golfers team id
-                GolferTeamJunction junction = await _golferTeamJunctionService.GetById(currentGolfer.GolferId, team.TeamId);
+                GolferTeamJunction junction = await _golferTeamJunctionRepo.GetById(currentGolfer.GolferId, team.TeamId);
                 if (junction != null)
                 {
                     newTeamId = junction.TeamId;
@@ -124,7 +124,7 @@ namespace Core.Services
             if (newTeamId == 0)
             {
                 // Check for substitute
-                var sub = await _substituteService.GetByGolferMatchup(currentGolfer.GolferId, matchup.MatchupId);
+                var sub = await _substituteRepo.GetByGolferMatchup(currentGolfer.GolferId, matchup.MatchupId);
 
                 if (sub == null) 
                     return GoToPreviousHoleResult.Failure("Golfer does not belong to a team.");

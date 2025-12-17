@@ -7,14 +7,14 @@ namespace Core.Services
     public class SubstituteService : ISubstituteService
     {
         private readonly ISubstituteRepository _substituteRepo;
-        private readonly IGolferMatchupJunctionService _golferMatchupJunctionService;
+        private readonly IGolferMatchupJunctionRepository _golferMatchupJunctionRepo;
         private readonly IGolferService _golferService;
         private readonly ITeamService _teamService;
 
-        public SubstituteService(ISubstituteRepository substituteRepo, IGolferMatchupJunctionService golferMatchupJunctionService, ITeamService teamService, IGolferService golferService)
+        public SubstituteService(ISubstituteRepository substituteRepo, IGolferMatchupJunctionRepository golferMatchupJunctionRepo, ITeamService teamService, IGolferService golferService)
         {
             _substituteRepo = substituteRepo;
-            _golferMatchupJunctionService = golferMatchupJunctionService;
+            _golferMatchupJunctionRepo = golferMatchupJunctionRepo;
             _teamService = teamService;
             _golferService = golferService;
         }
@@ -22,8 +22,8 @@ namespace Core.Services
         public async Task MakeSubstitution(Golfer oldGolfer, Golfer newGolfer, Matchup matchup)
         {
             // Replace GolferMatchupJunction with a new one
-            var junctionToDelete = await _golferMatchupJunctionService.GetById(oldGolfer.GolferId, matchup.MatchupId);
-            await _golferMatchupJunctionService.Delete(junctionToDelete);
+            var junctionToDelete = await _golferMatchupJunctionRepo.GetById(oldGolfer.GolferId, matchup.MatchupId);
+            await _golferMatchupJunctionRepo.Delete(junctionToDelete.GolferId, junctionToDelete.MatchupId);
 
             // Create new Junction
             var junction = new GolferMatchupJunction
@@ -32,7 +32,7 @@ namespace Core.Services
                 MatchupId = matchup.MatchupId,
             };
 
-            _golferMatchupJunctionService.Add(junction);
+            _golferMatchupJunctionRepo.Add(junction);
 
             var team = await _teamService.GetByGolferLeague(oldGolfer.GolferId, matchup.LeagueId);
 
@@ -55,8 +55,8 @@ namespace Core.Services
             Substitute sub = await _substituteRepo.GetByGolferMatchup(subGolfer.GolferId, matchup.MatchupId);
 
             // Replace GolferMatchupJunction with a new one
-            var junctionToDelete = await _golferMatchupJunctionService.GetById(subGolfer.GolferId, matchup.MatchupId);
-            await _golferMatchupJunctionService.Delete(junctionToDelete);
+            var junctionToDelete = await _golferMatchupJunctionRepo.GetById(subGolfer.GolferId, matchup.MatchupId);
+            await _golferMatchupJunctionRepo.Delete(junctionToDelete.GolferId, junctionToDelete.MatchupId);
 
             // Create new Junction
             var junction = new GolferMatchupJunction
@@ -65,7 +65,7 @@ namespace Core.Services
                 MatchupId = matchup.MatchupId,
             };
 
-            _golferMatchupJunctionService.Add(junction);
+            _golferMatchupJunctionRepo.Add(junction);
 
             // Delete substitute record
             await _substituteRepo.Delete(sub.GolferId, sub.TeamId, sub.MatchupId);

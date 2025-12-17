@@ -8,12 +8,12 @@ namespace Core.Services
     public class SeasonService : ISeasonService
     {
         private readonly ISeasonRepository _seasonRepo;
-        private readonly ILeagueService _leagueService;
+        private readonly ILeagueRepository _leagueRepo;
 
-        public SeasonService(ISeasonRepository seasonRepo, ILeagueService leagueService)
+        public SeasonService(ISeasonRepository seasonRepo, ILeagueRepository leagueRepo)
         {
             _seasonRepo = seasonRepo;
-            _leagueService = leagueService;
+            _leagueRepo = leagueRepo;
         }
 
         public async Task<CreateSeasonResult> CreateSeason(string seasonName, int leagueId)
@@ -25,7 +25,7 @@ namespace Core.Services
             }
 
             // Validate League Exists
-            var league = await _leagueService.GetById(leagueId);
+            var league = await _leagueRepo.GetById(leagueId);
             if (league == null)
             {
                 return CreateSeasonResult.Failure("Could not find a league.");

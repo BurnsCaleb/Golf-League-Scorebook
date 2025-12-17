@@ -8,12 +8,12 @@ namespace Core.Services
     public class GolferSearchBarService : IGolferSearchBarService
     {
         private readonly IGolferRepository _golferRepo;
-        private readonly IGolferLeagueJunctionService _golferLeagueJunctionService;
+        private readonly IGolferLeagueJunctionRepository _golferLeagueJunctionRepo;
 
-        public GolferSearchBarService(IGolferRepository golferRepo, IGolferLeagueJunctionService golferLeagueJunctionRepo)
+        public GolferSearchBarService(IGolferRepository golferRepo, IGolferLeagueJunctionRepository golferLeagueJunctionRepo)
         {
             _golferRepo = golferRepo;
-            _golferLeagueJunctionService = golferLeagueJunctionRepo;
+            _golferLeagueJunctionRepo = golferLeagueJunctionRepo;
         }
 
         public async Task<CreateGolferSearchBarResult> PerformGolferCheck(CreateGolferSearchBarRequest request)
@@ -38,7 +38,7 @@ namespace Core.Services
                 }
 
                 // Check if golfer exists in same league
-                var sameLeague = await _golferLeagueJunctionService.GolferExistsInLeague(golfer.GolferId, request.League.LeagueId);
+                var sameLeague = await _golferLeagueJunctionRepo.GolferExistsInLeague(golfer.GolferId, request.League.LeagueId);
                 if (sameLeague)
                 {
                     return CreateGolferSearchBarResult.Failure(
